@@ -13,9 +13,9 @@ var baseStyle = lipgloss.NewStyle().
 	Render
 
 type NamedModel struct {
-  key   string
-  label string
-  model tea.Model
+  Key   string
+  Label string
+  Model tea.Model
 }
 
 type Model struct {
@@ -32,7 +32,7 @@ func New(windows []NamedModel, minColumnWidth int) Model {
   keys["self"] = len(windows)
 
   for i, w := range windows {
-    keys[w.key] = i
+    keys[w.Key] = i
   }
 
 	return Model{
@@ -54,8 +54,8 @@ func (m Model) isSelfFocused() bool {
 }
 
 func (m Model) updateChild(msg tea.Msg) tea.Cmd {
-  updatedModel, cmd := m.windows[m.focused].model.Update(msg)
-  m.windows[m.focused] = NamedModel{m.windows[m.focused].key, m.windows[m.focused].label, updatedModel}
+  updatedModel, cmd := m.windows[m.focused].Model.Update(msg)
+  m.windows[m.focused] = NamedModel{m.windows[m.focused].Key, m.windows[m.focused].Label, updatedModel}
   return cmd
 }
 
@@ -115,7 +115,7 @@ func (m Model) View() string {
   var heights []int
 
   for _, w := range m.windows {
-    data := normalStyle(w.model.View())
+    data := normalStyle(w.Model.View())
     strings = append(strings, data)
     heights = append(heights, lipgloss.Height(data))
   }
